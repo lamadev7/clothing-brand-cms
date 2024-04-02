@@ -1,13 +1,20 @@
 import { CollectionConfig } from "payload/types";
+import { customerAndSelf } from "../access";
 
 const ProductReviews: CollectionConfig = {
     slug: 'productReviews',
     admin: {
         useAsTitle: 'name',
     },
+    access: {
+        read: () => true,
+        create: customerAndSelf,
+        update: customerAndSelf,
+        delete: customerAndSelf,
+    },
     fields: [
         {
-            name: 'customerId',
+            name: 'userId',
             label: 'Category Id',
             type: 'relationship',
             relationTo: ['users'],

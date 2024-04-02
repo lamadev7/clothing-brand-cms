@@ -7,7 +7,7 @@ export const customerAndSelf: Access = ({ req }) => {
     if (!user || user.roles.includes(ROLES.ADMIN)) return false;
 
     return {
-        userId: {
+        "userId.value": {
             equals: user.id
         }
     }

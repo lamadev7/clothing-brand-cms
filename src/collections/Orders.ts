@@ -3,7 +3,6 @@ import { uniqBy } from "lodash";
 import { CollectionConfig } from "payload/types";
 import { Product } from "payload/generated-types";
 
-import { createSignature } from "../utils";
 import { customerAndSelf, customerAndAdmin } from "../access";
 import { ENUM, PAYMENT_MODE_OPTIONS, PAYMENT_STATUS, PAYMENT_STATUS_OPTIONS } from "../constants";
 
@@ -278,7 +277,7 @@ const Orders: CollectionConfig = {
                 try {
                     const { payload, body } = req;
                     const { orderId } = body ?? {};
-                    const params: any = { orderStatus: PAYMENT_STATUS.CANCELED};
+                    const params: any = { orderStatus: PAYMENT_STATUS.CANCELED };
 
                     if (orderId) {
                         const response = await payload.update({
@@ -304,7 +303,7 @@ const Orders: CollectionConfig = {
                 try {
                     const { payload, body } = req;
                     const { orderId } = body ?? {};
-                    const params: any = { orderStatus: PAYMENT_STATUS.PENDING};
+                    const params: any = { orderStatus: PAYMENT_STATUS.PENDING };
 
                     if (orderId) {
                         const response = await payload.update({
