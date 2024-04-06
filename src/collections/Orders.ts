@@ -78,29 +78,15 @@ const Orders: CollectionConfig = {
                     required: true,
                 },
                 {
-                    name: 'colors',
-                    label: 'Ordered Colors',
-                    type: 'array',
-                    fields: [
-                        {
-                            name: 'name',
-                            type: 'text',
-                            label: 'Color Name',
-                        }
-                    ],
+                    name: 'color',
+                    label: 'Ordered Color',
+                    type: 'text',
                     required: true,
                 },
                 {
-                    name: 'sizes',
-                    label: 'Ordered Sizes',
-                    type: 'array',
-                    fields: [
-                        {
-                            name: 'name',
-                            type: 'text',
-                            label: 'Size type',
-                        }
-                    ],
+                    name: 'size',
+                    label: 'Ordered Size',
+                    type: 'text',
                     required: true,
                 }
             ]
