@@ -14,6 +14,7 @@ import Media from './collections/media';
 import Header from './globals/Header';
 import Footer from './globals/Footer';
 import Banner from './globals/Banner';
+import Faqs from './collections/Faqs';
 import Orders from './collections/Orders';
 import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
@@ -31,6 +32,7 @@ export default buildConfig({
     Media,
     Users,
     Orders,
+    Faqs,
     Subscribers,
     ProductReviews,
   ],

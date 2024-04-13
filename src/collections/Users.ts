@@ -2,6 +2,7 @@ import { CollectionConfig } from 'payload/types';
 
 import { ROLES } from '../constants';
 import { isValidMobileNumber, isValidAge } from '../utils';
+import { customerAndSelf } from '../access';
 
 const User: CollectionConfig = {
   slug: 'users',
@@ -11,7 +12,9 @@ const User: CollectionConfig = {
   },
   access: {
     create: () => true,
-    read: () => true
+    read: customerAndSelf,
+    update: customerAndSelf,
+    delete: customerAndSelf,
   },
   fields: [
     {

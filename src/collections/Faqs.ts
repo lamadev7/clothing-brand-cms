@@ -1,27 +1,29 @@
 import { CollectionConfig } from "payload/types";
 import { adminOnly } from "../access";
 
-const Media: CollectionConfig = {
-    slug: "media",
+
+const Faqs: CollectionConfig = {
+    slug: 'faqs',
     access: {
         read: () => true,
         create: adminOnly,
         update: adminOnly,
         delete: adminOnly,
     },
-    upload: {
-        staticURL: '/media',
-        staticDir: './media',
-        adminThumbnail: 'card',
-    },
     fields: [
         {
-            name: 'alt',
-            label: 'Alt Text',
+            label: 'Question Title',
+            name: 'title',
             type: 'text',
             required: true,
         },
-    ],
-}
+        {
+            label: 'Question Description',
+            name: 'content',
+            type: 'text',
+            required: true,
+        }
+    ]
+};
 
-export default Media;
+export default Faqs;
