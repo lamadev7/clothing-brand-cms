@@ -12,7 +12,8 @@ const Product: CollectionConfig = {
     access: {
         read: () => true,
         create: adminOnly,
-        update: adminOnly
+        update: adminOnly,
+        delete: adminOnly,
     },
     fields: [
         {
