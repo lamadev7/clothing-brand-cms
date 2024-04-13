@@ -1,8 +1,12 @@
 import type { GlobalConfig } from "payload/types";
+import { adminOnly } from "../access";
 
 
 const Footer: GlobalConfig = {
     slug: 'footer',
+    access: {
+        update: adminOnly,
+    },
     fields: [
         {
             type: 'row',

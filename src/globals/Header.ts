@@ -1,9 +1,11 @@
 import type { GlobalConfig } from "payload/types";
+import { adminOnly } from "../access";
 
 const Header: GlobalConfig = {
     slug: 'header',
     access: {
-        read: () => true
+        read: () => true,
+        update: adminOnly,
     },
     fields: [
         {

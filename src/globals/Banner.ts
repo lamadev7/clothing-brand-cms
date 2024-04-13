@@ -1,10 +1,12 @@
 import { GlobalConfig } from "payload/types";
+import { adminOnly } from "../access";
 
 
 const Banner: GlobalConfig = {
     slug: "banner",
     access: {
-        read: () => true
+        read: () => true,
+        update: adminOnly,
     },
     fields: [
         {
