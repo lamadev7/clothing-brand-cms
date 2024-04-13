@@ -1,5 +1,5 @@
 import { CollectionConfig } from "payload/types";
-import { customerOnlyOrAynone } from "../access";
+import { adminOnly, customerOnlyOrAynone } from "../access";
 
 
 const Subscribers: CollectionConfig = {
@@ -8,8 +8,10 @@ const Subscribers: CollectionConfig = {
         useAsTitle: 'firstName',
     },
     access: {
-        read: () => true,
-        create: customerOnlyOrAynone
+        read: adminOnly,
+        create: customerOnlyOrAynone,
+        update: adminOnly,
+        delete: adminOnly,
     },
     fields: [
         {
