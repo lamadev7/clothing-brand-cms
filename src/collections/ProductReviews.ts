@@ -7,7 +7,7 @@ const ProductReviews: CollectionConfig = {
         useAsTitle: 'name',
     },
     access: {
-        read: customerAndSelf,
+        read: () => true,
         create: customerAndSelf,
         update: customerAndSelf,
         delete: customerAndSelf,
