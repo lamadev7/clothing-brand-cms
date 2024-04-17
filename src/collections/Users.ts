@@ -12,7 +12,13 @@ const User: CollectionConfig = {
   },
   access: {
     create: () => true,
-    read: customerAndSelf,
+    read: (args: any) => {
+      const { req } = args;
+      const { user } = req ?? {};
+
+      if(!user) return true;
+      return customerAndSelf(args);
+    },
     update: customerAndSelf,
     delete: customerAndSelf,
   },
