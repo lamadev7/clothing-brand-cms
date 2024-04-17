@@ -18,6 +18,7 @@ import Faqs from './collections/Faqs';
 import Orders from './collections/Orders';
 import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
+import Coupons from './collections/Coupons';
 
 export default buildConfig({
   serverURL: process.env.BASE_URI,
@@ -33,6 +34,7 @@ export default buildConfig({
     Users,
     Orders,
     Faqs,
+    Coupons,
     Subscribers,
     ProductReviews,
   ],
