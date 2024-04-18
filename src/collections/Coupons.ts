@@ -1,5 +1,6 @@
 import { CollectionConfig } from "payload/types";
 import { adminOnly } from "../access";
+import { DISCOUNT_TYPES } from "../constants";
 
 const Coupons: CollectionConfig = {
     slug: 'coupons',
@@ -16,6 +17,12 @@ const Coupons: CollectionConfig = {
         {
             name: 'code',
             type: 'text',
+            required: true,
+        },
+        {
+            name: 'discountType',
+            type: 'select',
+            options: DISCOUNT_TYPES,
             required: true,
         },
         {

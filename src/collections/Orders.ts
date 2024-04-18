@@ -112,27 +112,6 @@ const Orders: CollectionConfig = {
         {
             name: 'subTotal',
             type: 'number',
-            hooks: {
-                afterChange: [
-                    async (args) => {
-                        let subTotal = 0;
-                        const { originalDoc: { orderItems } } = args;
-                        const productIds = orderItems?.map((item: Product) => item.id);
-                        const { docs } = await payload.find({
-                            collection: 'product',
-                            where: {
-                                id: {
-                                    in: productIds
-                                }
-                            }
-                        });
-
-                        docs?.forEach((item: Product) => (subTotal += item?.price));
-
-                        return subTotal;
-                    }
-                ]
-            }
         },
         {
             name: 'shippingFee',
@@ -140,18 +119,12 @@ const Orders: CollectionConfig = {
             required: true,
         },
         {
+            name: 'discount',
+            type: 'number',
+        },
+        {
             name: 'total',
             type: 'number',
-            hooks: {
-                afterChange: [
-                    async (args) => {
-                        const { originalDoc: { subTotal, shippingFee } } = args;
-
-                        if (shippingFee) return subTotal;
-                        return subTotal + shippingFee;
-                    }
-                ]
-            }
         }
     ],
     endpoints: [

@@ -4,6 +4,20 @@ export const ROLES = Object.freeze({
     CUSTOMER: 'customer',
 });
 
+export const PAYMENT_STATUS = Object.freeze({
+    PENDING: 'PENDING',
+    COMPLETE: 'COMPLETE',
+    CANCELED: 'CANCELED',
+    FULL_REFUND: 'FULL_REFUND',
+});
+
+export const ENUM = Object.freeze({
+    AMOUNT: 'amount',
+    COD: 'Cash In Delivery',
+    PERCENTAGE: 'percentage',
+    ESEWA: 'eSewa Mobile Wallet',
+});
+
 export const SIZE_OPTIONS = [
     { label: 'SM', value: 'sm' },
     { label: 'MD', value: 'md' },
@@ -32,18 +46,6 @@ export const PAYMENT_MODE_OPTIONS = [
     { label: 'eSewa Mobile Wallet', value: 'eSewa Mobile Wallet' },
 ];
 
-export const PAYMENT_STATUS = Object.freeze({
-    PENDING: 'PENDING',
-    COMPLETE: 'COMPLETE',
-    CANCELED: 'CANCELED',
-    FULL_REFUND: 'FULL_REFUND',
-});
-
-export const ENUM = Object.freeze({
-    COD: 'Cash In Delivery',
-    ESEWA: 'eSewa Mobile Wallet'
-});
-
 export const PAYMENT_STATUS_OPTIONS = [
     { label: 'Pending', value: 'PENDING' },
     { label: 'Completed', value: 'COMPLETE' },
@@ -55,3 +57,8 @@ export const PAYMENT_STATUS_OPTIONS = [
     { label: 'Server connection timeout', value: 'Service is currently unavailable' },
 
 ];
+
+export const DISCOUNT_TYPES = [
+    { label: 'Percentage', value: 'percentage' },
+    { label: 'Amount', value: 'amount' },
+]
