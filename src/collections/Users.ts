@@ -1,20 +1,21 @@
 import { CollectionConfig } from 'payload/types';
 
 import { ROLES } from '../constants';
-import { isValidMobileNumber, isValidAge } from '../utils';
-import { loggedIn, customerAndSelf } from '../access';
+import { customerAndSelf, adminOnly } from '../access';
+import { isValidMobileNumber, isValidAge, hideAdminCollection } from '../utils';
 
 const User: CollectionConfig = {
   slug: 'users',
   auth: true,
   admin: {
     useAsTitle: 'firstName',
+    hidden: hideAdminCollection,
   },
   access: {
     create: () => true,
-    read: loggedIn,
+    read: () => true,
+    delete: adminOnly,
     update: customerAndSelf,
-    delete: customerAndSelf,
   },
   fields: [
     {

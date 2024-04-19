@@ -7,18 +7,18 @@ import { slateEditor } from '@payloadcms/richtext-slate';
 import { buildConfig } from 'payload/config';
 
 import Users from './collections/Users';
-import Categories from './collections/Categories';
-import Product from './collections/Product';
 import Media from './collections/media';
+import Product from './collections/Product';
+import Categories from './collections/Categories';
 
 import Header from './globals/Header';
 import Footer from './globals/Footer';
 import Banner from './globals/Banner';
 import Faqs from './collections/Faqs';
 import Orders from './collections/Orders';
+import Coupons from './collections/Coupons';
 import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
-import Coupons from './collections/Coupons';
 
 export default buildConfig({
   serverURL: process.env.BASE_URI,

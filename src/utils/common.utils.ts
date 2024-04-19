@@ -1,6 +1,7 @@
 import moment from "moment";
 import validator from "validator";
 import { createHmac } from "crypto";
+import { ROLES } from "../constants";
 
 export const isValidMobileNumber = (value: string): boolean => {
     return validator.isMobilePhone(value ?? '', 'any');
@@ -18,8 +19,13 @@ export const createSignature = (message: any) => {
 
     const hmac = createHmac("sha256", secret);
     hmac.update(message);
-  
+
     const hashInBase64 = hmac.digest("base64");
     return hashInBase64;
-  };
-  
+};
+
+
+export const hideAdminCollection = (args: any) => {
+    const { user }: any = args ?? {};
+    return user?.roles?.includes(ROLES.CUSTOMER);
+}

@@ -1,9 +1,13 @@
-import { GlobalConfig } from "payload/types";
 import { adminOnly } from "../access";
+import { hideAdminCollection } from "../utils";
+import { GlobalConfig } from "payload/types";
 
 
 const Banner: GlobalConfig = {
     slug: "banner",
+    admin: {
+        hidden: hideAdminCollection,
+    },
     access: {
         read: () => true,
         update: adminOnly,

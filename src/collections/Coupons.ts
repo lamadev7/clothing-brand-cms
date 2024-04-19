@@ -1,11 +1,13 @@
-import { CollectionConfig } from "payload/types";
 import { adminOnly } from "../access";
+import { hideAdminCollection } from "../utils";
 import { DISCOUNT_TYPES } from "../constants";
+import { CollectionConfig } from "payload/types";
 
 const Coupons: CollectionConfig = {
     slug: 'coupons',
     admin: {
-        useAsTitle: 'code'
+        useAsTitle: 'code',
+        hidden: hideAdminCollection,
     },
     access: {
         read: () => true,

@@ -1,9 +1,13 @@
-import { CollectionConfig } from "payload/types";
 import { adminOnly } from "../access";
+import { hideAdminCollection } from "../utils";
+import { CollectionConfig } from "payload/types";
 
 
 const Faqs: CollectionConfig = {
     slug: 'faqs',
+    admin: {
+        hidden: hideAdminCollection
+    },
     access: {
         read: () => true,
         create: adminOnly,

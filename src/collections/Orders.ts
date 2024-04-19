@@ -1,9 +1,8 @@
-import payload from "payload";
 import { uniqBy } from "lodash";
 import { CollectionConfig } from "payload/types";
 import { Product } from "payload/generated-types";
 
-import { customerAndSelf, customerAndAdmin } from "../access";
+import { customerAndSelf, customerAndAdmin, adminAndSelf, adminOnly } from "../access";
 import { ENUM, PAYMENT_MODE_OPTIONS, PAYMENT_STATUS, PAYMENT_STATUS_OPTIONS } from "../constants";
 
 const Orders: CollectionConfig = {
@@ -12,7 +11,7 @@ const Orders: CollectionConfig = {
         read: customerAndAdmin,
         delete: customerAndAdmin,
         create: customerAndSelf,
-        update: customerAndSelf,
+        update: adminOnly,
     },
     hooks: {
         afterChange: [

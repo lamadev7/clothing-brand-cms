@@ -1,5 +1,6 @@
 import { round, sumBy } from "lodash";
 import { adminOnly } from "../access";
+import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { COLOR_OPTIONS, SIZE_OPTIONS } from "../constants";
 
@@ -7,7 +8,8 @@ import { COLOR_OPTIONS, SIZE_OPTIONS } from "../constants";
 const Product: CollectionConfig = {
     slug: "product",
     admin: {
-        useAsTitle: 'name'
+        useAsTitle: 'name',
+        hidden: hideAdminCollection
     },
     access: {
         read: () => true,
