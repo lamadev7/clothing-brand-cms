@@ -41,6 +41,13 @@ const Coupons: CollectionConfig = {
             name: 'validTo',
             type: 'date',
             required: true,
+        },
+        {
+            hasMany:true,
+            required: true,
+            name: 'productId',
+            type: 'relationship',
+            relationTo: "product",
         }
     ]
 }
