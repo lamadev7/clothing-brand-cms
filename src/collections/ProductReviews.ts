@@ -1,5 +1,6 @@
 import { CollectionConfig } from "payload/types";
 import { productReviewAccess } from "../access/productReview";
+import { loggedIn } from "../access";
 
 const ProductReviews: CollectionConfig = {
     slug: 'productReviews',
@@ -7,7 +8,7 @@ const ProductReviews: CollectionConfig = {
         useAsTitle: 'name',
     },
     access: {
-        read: productReviewAccess,
+        read: loggedIn,
         create: productReviewAccess,
         update: productReviewAccess,
         delete: productReviewAccess,
