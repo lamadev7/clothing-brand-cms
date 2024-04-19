@@ -13,6 +13,8 @@ export interface Config {
     media: Media;
     users: User;
     orders: Order;
+    faqs: Faq;
+    coupons: Coupon;
     contacts: Contact;
     productReviews: ProductReview;
     'payload-preferences': PayloadPreference;
@@ -159,14 +161,8 @@ export interface Order {
     | {
         product: string | Product;
         quantity: number;
-        colors: {
-          name?: string | null;
-          id?: string | null;
-        }[];
-        sizes: {
-          name?: string | null;
-          id?: string | null;
-        }[];
+        color: string;
+        size: string;
         id?: string | null;
       }[]
     | null;
@@ -197,7 +193,34 @@ export interface Order {
     | null;
   subTotal?: number | null;
   shippingFee: number;
+  discount?: number | null;
   total?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "faqs".
+ */
+export interface Faq {
+  id: string;
+  title: string;
+  content: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "coupons".
+ */
+export interface Coupon {
+  id: string;
+  code: string;
+  discountType: 'percentage' | 'amount';
+  discount: number;
+  validFrom: string;
+  validTo: string;
+  isAlreadyClaimed?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -220,15 +243,20 @@ export interface Contact {
  */
 export interface ProductReview {
   id: string;
-  customerId: {
+  userId: {
     relationTo: 'users';
     value: string | User;
+  };
+  productId: {
+    relationTo: 'product';
+    value: string | Product;
   };
   message?: string | null;
   attachments?:
     | {
-        id?: string | null;
+        attachmentId?: string | null;
         url?: string | null;
+        id?: string | null;
       }[]
     | null;
   updatedAt: string;
