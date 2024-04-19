@@ -15,6 +15,14 @@ const Coupons: CollectionConfig = {
         update: adminOnly,
         delete: adminOnly,
     },
+    hooks: {
+        afterChange: [
+            ({ req }) => {
+                const { user } = req ?? {};
+
+            }
+        ]
+    },
     fields: [
         {
             name: 'code',
@@ -41,6 +49,11 @@ const Coupons: CollectionConfig = {
             name: 'validTo',
             type: 'date',
             required: true,
+        },
+        {
+            name: 'isAlreadyClaimed',
+            type: 'checkbox',
+            defaultValue: false,
         },
     ]
 }
