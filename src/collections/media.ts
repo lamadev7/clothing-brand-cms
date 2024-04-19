@@ -1,4 +1,4 @@
-import { adminOnly } from "../access";
+import { customerAndAdmin } from "../access";
 import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 
@@ -9,9 +9,9 @@ const Media: CollectionConfig = {
     },
     access: {
         read: () => true,
-        create: adminOnly,
-        update: adminOnly,
-        delete: adminOnly,
+        create: customerAndAdmin,
+        update: customerAndAdmin,
+        delete: customerAndAdmin,
     },
     upload: {
         staticURL: '/media',
