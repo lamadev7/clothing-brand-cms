@@ -1,7 +1,7 @@
 import { CollectionConfig } from 'payload/types';
 
 import { ROLES } from '../constants';
-import { customerAndSelf, adminOnly } from '../access';
+import { adminOnly, customerAndAdmin } from '../access';
 import { isValidMobileNumber, isValidAge, hideAdminCollection } from '../utils';
 
 const User: CollectionConfig = {
@@ -15,7 +15,7 @@ const User: CollectionConfig = {
     create: () => true,
     read: () => true,
     delete: adminOnly,
-    update: customerAndSelf,
+    update: customerAndAdmin,
   },
   fields: [
     {

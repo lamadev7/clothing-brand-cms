@@ -1,5 +1,5 @@
 import { CollectionConfig } from "payload/types";
-import { customerAndSelf } from "../access";
+import { productReviewAccess } from "../access/productReview";
 
 const ProductReviews: CollectionConfig = {
     slug: 'productReviews',
@@ -7,10 +7,10 @@ const ProductReviews: CollectionConfig = {
         useAsTitle: 'name',
     },
     access: {
-        read: () => true,
-        create: customerAndSelf,
-        update: customerAndSelf,
-        delete: customerAndSelf,
+        read: productReviewAccess,
+        create: productReviewAccess,
+        update: productReviewAccess,
+        delete: productReviewAccess,
     },
     fields: [
         {
