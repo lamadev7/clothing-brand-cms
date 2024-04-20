@@ -62,3 +62,9 @@ export const DISCOUNT_TYPES = [
     { label: 'Percentage', value: 'percentage' },
     { label: 'Amount', value: 'amount' },
 ]
+
+
+export const ENV = {
+    DEVELOPMENT: 'development',
+    PRODUCTION: 'production',
+}

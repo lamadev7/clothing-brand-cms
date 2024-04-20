@@ -1,10 +1,11 @@
 import path from 'path';
 
+import config from "./config";
+import { buildConfig } from 'payload/config';
 import { payloadCloud } from '@payloadcms/plugin-cloud';
 import { mongooseAdapter } from '@payloadcms/db-mongodb';
-import { webpackBundler } from '@payloadcms/bundler-webpack';
 import { slateEditor } from '@payloadcms/richtext-slate';
-import { buildConfig } from 'payload/config';
+import { webpackBundler } from '@payloadcms/bundler-webpack';
 
 import Users from './collections/Users';
 import Media from './collections/media';
@@ -21,7 +22,7 @@ import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
 
 export default buildConfig({
-  serverURL: process.env.BASE_URI,
+  serverURL: config.BASE_URI,
   admin: {
     user: Users.slug,
     bundler: webpackBundler(),
@@ -48,6 +49,6 @@ export default buildConfig({
   },
   plugins: [payloadCloud()],
   db: mongooseAdapter({
-    url: process.env.DATABASE_URI,
+    url: config.DATABASE_URI,
   }),
 })

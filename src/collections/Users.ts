@@ -3,10 +3,31 @@ import { CollectionConfig } from 'payload/types';
 import { ROLES } from '../constants';
 import { adminOnly, customerAndAdmin } from '../access';
 import { isValidMobileNumber, isValidAge, hideAdminCollection } from '../utils';
+import config from '../config';
 
 const User: CollectionConfig = {
   slug: 'users',
-  auth: true,
+  auth: {
+    forgotPassword: {
+      generateEmailHTML: ({ token, user }: any) => {
+        const resetPasswordURL = `${config.CLIENT_URI}/reset-password?token=${token}`;
+
+        return `
+          <!doctype html>
+          <html>
+            <body>
+              <h1>Here is my custom email template!</h1>
+              <p>Hello, ${user?.email}!</p>
+              <p>Click below to reset your password.</p>
+              <p>
+                <a href="${resetPasswordURL}">${resetPasswordURL}</a>
+              </p>
+            </body>
+          </html>
+        `
+      },
+    },
+  },
   admin: {
     useAsTitle: 'firstName',
     hidden: hideAdminCollection,

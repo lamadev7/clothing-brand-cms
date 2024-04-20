@@ -1,11 +1,13 @@
+import { loggedIn } from "../access";
+import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { productReviewAccess } from "../access/productReview";
-import { loggedIn } from "../access";
 
 const ProductReviews: CollectionConfig = {
     slug: 'productReviews',
     admin: {
         useAsTitle: 'name',
+        hidden: hideAdminCollection
     },
     access: {
         read: loggedIn,

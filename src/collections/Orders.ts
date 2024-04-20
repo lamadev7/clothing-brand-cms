@@ -1,12 +1,17 @@
+import config from "../config";
 import { uniqBy } from "lodash";
+import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { Product } from "payload/generated-types";
 
-import { customerAndSelf, customerAndAdmin, adminAndSelf, adminOnly } from "../access";
+import { customerAndSelf, customerAndAdmin, adminOnly } from "../access";
 import { ENUM, PAYMENT_MODE_OPTIONS, PAYMENT_STATUS, PAYMENT_STATUS_OPTIONS } from "../constants";
 
 const Orders: CollectionConfig = {
     slug: "orders",
+    admin: {
+        hidden: hideAdminCollection
+    },
     access: {
         read: customerAndAdmin,
         delete: customerAndAdmin,
@@ -135,13 +140,13 @@ const Orders: CollectionConfig = {
                     const { payload, query } = req;
                     const { data }: any = query ?? {};
 
-                    if (!data) return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                    if (!data) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const decodedData = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
 
                     // const message = decodedData.signed_field_names.split(",").map((field) => `${field}=${decodedData[field] || ""}`).join(",");
                     // const signature = createSignature(message);
-                    // if (signature !== decodedData.signature) return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                    // if (signature !== decodedData.signature) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const { status, transaction_uuid } = decodedData ?? {};
                     const orderId = transaction_uuid.split("-")?.[0] ?? {};
@@ -155,13 +160,13 @@ const Orders: CollectionConfig = {
                             data: { paymentStatus: paymentStatusOption?.value ?? status, paymentMode: ENUM.ESEWA }
                         })
 
-                        return res.redirect(process.env.CLIENT_PAYMENT_SUCCESS_PAGE);
+                        return res.redirect(config.CLIENT_PAYMENT_SUCCESS_PAGE);
                     }
 
                     res.status(500).send({ message: '500 SERVER ERROR!' });
                 } catch (error) {
                     console.error(error);
-                    return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                    return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
                 }
             }
         },
@@ -173,7 +178,7 @@ const Orders: CollectionConfig = {
                     const { payload, query } = req;
                     const { data }: any = query ?? {};
 
-                    if (!data) return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                    if (!data) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const decodedData = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
 
@@ -193,10 +198,10 @@ const Orders: CollectionConfig = {
                             data: { paymentStatus: paymentStatusOption?.value ?? status }
                         })
 
-                        return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                        return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
                     }
 
-                    return res.redirect(process.env.CLIENT_PAYMENT_FAILED_PAGE);
+                    return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
                 } catch (error) {
                     res.send({});
                     console.error(error);
