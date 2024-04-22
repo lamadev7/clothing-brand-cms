@@ -123,6 +123,26 @@ const Orders: CollectionConfig = {
             required: true,
         },
         {
+            type: 'row',
+            fields: [
+                {
+                    name: 'deliveryLocation',
+                    type: 'text'
+                },
+                {
+                    name: 'lat',
+                    type: 'number',
+                    required: true
+                },
+                {
+                    name: 'lng',
+                    type: 'number',
+                    required: true
+                }
+            ],
+            required: true,
+        },
+        {
             name: 'discount',
             type: 'number',
         },
