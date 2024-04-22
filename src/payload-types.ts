@@ -193,6 +193,9 @@ export interface Order {
     | null;
   subTotal?: number | null;
   shippingFee: number;
+  deliveryLocation?: string | null;
+  lat: number;
+  lng: number;
   discount?: number | null;
   total?: number | null;
   updatedAt: string;
@@ -220,7 +223,7 @@ export interface Coupon {
   discount: number;
   validFrom: string;
   validTo: string;
-  isAlreadyClaimed?: boolean | null;
+  claimedUsers?: (string | User)[] | null;
   updatedAt: string;
   createdAt: string;
 }
