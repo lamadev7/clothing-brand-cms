@@ -24,14 +24,13 @@ const Subscribers: CollectionConfig = {
             name: 'lastName',
             label: 'Last Name',
             type: 'text',
-            required: true,
         },
         {
             name: 'email',
             label: 'Email Address',
             type: 'email',
             required: true,
-            unique: true,
+            unique: false,
         },
         {
             name: 'message',
