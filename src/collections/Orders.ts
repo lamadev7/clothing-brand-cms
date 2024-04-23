@@ -132,15 +132,12 @@ const Orders: CollectionConfig = {
                 {
                     name: 'lat',
                     type: 'number',
-                    required: true
                 },
                 {
                     name: 'lng',
                     type: 'number',
-                    required: true
                 }
             ],
-            required: true,
         },
         {
             name: 'discount',
