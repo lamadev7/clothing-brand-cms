@@ -30,7 +30,6 @@ const Subscribers: CollectionConfig = {
             label: 'Email Address',
             type: 'email',
             required: true,
-            unique: false,
         },
         {
             name: 'message',
