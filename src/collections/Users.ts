@@ -88,6 +88,11 @@ const User: CollectionConfig = {
       relationTo: 'media',
     },
     {
+      name: 'address',
+      label: 'Address',
+      type: 'text',
+    },
+    {
       name: 'roles',
       type: 'select',
       options: [
@@ -109,6 +114,30 @@ const User: CollectionConfig = {
       },
       hasMany: true,
       required: true
+    }
+  ],
+  endpoints: [
+    {
+      path: '/update',
+      method: 'put',
+      handler: async (req, res) => {
+        try {
+          const { payload, body } = req;
+          const { id } = body;
+
+          if (id) {
+            const response = await payload.update({
+              collection: 'users',
+              id: id,
+              data: body
+            });
+            return res.send({ message: 'User updated successfully!', data: response });
+          }
+        } catch (error) {
+          console.error(error);
+          res.status(500).send({ message: error.message });
+        }
+      }
     }
   ]
 }
