@@ -146,6 +146,10 @@ const Orders: CollectionConfig = {
         {
             name: 'total',
             type: 'number',
+        },
+        {
+            name: 'transaction_id',
+            type: 'text',
         }
     ],
     endpoints: [
@@ -296,6 +300,29 @@ const Orders: CollectionConfig = {
 
                     res.status(404).send({ message: 'Order ID missing!', data: null })
 
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).send({ message: error.message });
+                }
+            }
+        },
+        {
+            path: '/update',
+            method: 'put',
+            handler: async (req, res) => {
+                try {
+                    const { payload, body } = req;
+                    const { id } = body ?? {};
+
+                    if (id) {
+                        const response = await payload.update({
+                            collection: 'orders',
+                            id: id,
+                            data: body
+                        });
+                        return res.send({ message: 'Payment completed successfully!', data: response });
+                    }
+                    return res.status(400).send({ message: 'Order ID is required!', data: null });
                 } catch (error) {
                     console.error(error);
                     res.status(500).send({ message: error.message });
