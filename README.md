@@ -1,42 +1,159 @@
-# Payload Blank Template
+#  11VERSE-API PAYLOAD-CMS
 
-A blank template for [Payload](https://github.com/payloadcms/payload) to help you get up and running quickly. This repo may have been created by running `npx create-payload-app@latest` and selecting the "blank" template or by cloning this template on [Payload Cloud](https://payloadcms.com/new/clone/blank).
+## Deployment [Ubuntu OS]
 
-See the official [Examples Directory](https://github.com/payloadcms/payload/tree/main/examples) for details on how to use Payload in a variety of different ways.
+- Enter into vps terminal using SSH
 
-## Development
+```bash
+  ssh root@192.00.00.00
+```
 
-To spin up the project locally, follow these steps:
+- Update apt package manager
 
-1. First clone the repo
-1. Then `cd YOUR_PROJECT_REPO && cp .env.example .env`
-1. Next `yarn && yarn dev` (or `docker-compose up`, see [Docker](#docker))
-1. Now `open http://localhost:3000/admin` to access the admin panel
-1. Create your first admin user using the form on the page
+```bash
+  sudo apt-get update
+```
 
-That's it! Changes made in `./src` will be reflected in your app.
 
-### Docker
+- Install NPM package manager
 
-Alternatively, you can use [Docker](https://www.docker.com) to spin up this project locally. To do so, follow these steps:
+```bash
+  sudo apt-get install npm
+```
 
-1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
-1. Next run `docker-compose up`
-1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
+- Install NVM (n) which is used to install and switch node version
 
-That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
+```bash
+  npm i -g n
+```
 
-## Production
+- Install git
 
-To run Payload in production, you need to build and serve the Admin panel. To do so, follow these steps:
+```bash
+  sudo apt-get install git
+```
 
-1. First invoke the `payload build` script by running `yarn build` or `npm run build` in your project root. This creates a `./build` directory with a production-ready admin bundle.
-1. Then run `yarn serve` or `npm run serve` to run Node in production and serve Payload from the `./build` directory.
+- Generate SSH key fingerprints using ssh-keygen
 
-### Deployment
+```bash
+  ssh-keygen -t rsa -b 4096 -C "abc@gmail.com"
+```
 
-The easiest way to deploy your project is to use [Payload Cloud](https://payloadcms.com/new/import), a one-click hosting solution to deploy production-ready instances of your Payload apps directly from your GitHub repo. You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
+- Copy the id_rsa.pub file fingerprint and create new ssh key in github settings>SSH AND GPG KEY and paste the fingerprints.
 
-## Questions
+- Clone your project using git
 
-If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).
+```bash
+  git clone ssh://github/your_project
+```
+
+- Open your project directory and install all depedency located in package.json
+
+```bash
+  cd project_name
+
+  npm install
+```
+
+
+- Create new .env file and paste .env value from your local machine
+
+```bash
+  touch .env
+
+  vim .env
+
+  # paste your .env value and save
+
+```
+
+- Now, start your project
+
+```bash
+    npm start
+```
+
+
+
+
+## Setup Firewall
+
+- Enable Firewall
+
+```bash
+  sudo ufw enable 
+
+```
+
+- Check if firwall status is active or not
+```bash
+  sudo ufw status
+```
+
+- Allow port
+```bash
+  sudo ufw allow ssh (Port 22)
+  sudo ufw allow http (Port 80)
+  sudo ufw allow https (Port 443)
+```
+
+## Setup Nginx Proxy Server
+- Install Nginx
+```bash
+  sudo apt install ngnix
+```
+
+- Open default nginx config file inside /etc/ngnix/sites-available using vim
+```bash
+  vim /etc/nginx/sites-available/default
+```
+
+- Paste this default configuration
+```bash
+  server {
+        listen 80 default_server;
+        listen [::]:80 default_server;
+
+        # SSL configuration
+
+        root /var/www/html;
+
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+
+        server_name _;
+
+        location / {
+          proxy_pass http://localhost:9000/;
+          proxy_http_version 1.1;
+          proxy_set_header Upgrade $http_upgrade;
+          proxy_set_header Connection 'upgrade';
+          proxy_set_header Host $host;
+          proxy_cache_bypass $http_upgrade;
+        }
+  }
+```
+
+## Setup SSL Certificates using certbot
+- Install certbot
+```bash
+  sudo add-apt-repository ppa:certbot/certbot
+  sudo apt-get update
+```
+
+- Install apt-get
+```bash
+  sudo apt-get update
+```
+
+- Install python certbot using apt-get
+```bash
+  sudo apt-get install python3-certbot-nginx
+```
+
+- Install python certbot using apt-get
+```bash
+  sudo apt-get install python3-certbot-nginx
+```
+
+- Apply link to your domain
