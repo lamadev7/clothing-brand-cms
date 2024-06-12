@@ -106,6 +106,53 @@ const Coupons: CollectionConfig = {
                     return res.status(400).send({ docs: [], message: error.message });
                 }
             }
+        },
+        {
+            path: '/remove',
+            method: 'put',
+            handler: async (req, res) => {
+                try {
+                    const { payload, body }: any = req;
+                    const { code, userId } = body ?? {};
+
+                    const result = await payload.find({
+                        collection: 'coupons',
+                        where: {
+                            and: [
+                                {
+                                    code: { equals: code }
+                                },
+                                {
+                                    claimedUsers: { in: userId }
+                                }
+                            ]
+                        }
+                    });
+
+                    const { docs } = result ?? {};
+
+                    if (docs?.length > 0) {
+                        const couponDetails = docs?.[0];
+                        const { claimedUsers } = couponDetails ?? {};
+                        const filterClaimedUsers = claimedUsers?.filter((d: any) => d.id !== userId);
+
+                        const updateRes = await payload.update({
+                            collection: 'coupons',
+                            id: couponDetails.id,
+                            data: {
+                                claimedUsers: filterClaimedUsers ?? []
+                            }
+                        });
+                        
+                        return res.send({ docs: updateRes, message: 'Coupon code removed successfully.'});
+                    }
+
+                    res.send({ docs: [], message: 'Coupon code not found!' });
+                } catch (error) {
+                    console.error(error);
+                    return res.status(400).send({ docs: [], message: error.message });
+                }
+            }
         }
     ]
 }
