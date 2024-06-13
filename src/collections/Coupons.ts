@@ -72,7 +72,6 @@ const Coupons: CollectionConfig = {
                             ]
                         }
                     });
-
                     const { docs } = result ?? {};
 
                     if (docs?.length > 0) {
@@ -85,7 +84,7 @@ const Coupons: CollectionConfig = {
                                 id: couponDetails.id,
                                 data: {
                                     claimedUsers: [
-                                        ...couponDetails?.claimedUsers ?? [],
+                                        ...couponDetails?.claimedUsers?.map((d: any) => d.id) ?? [],
                                         userId
                                     ]
                                 }
@@ -134,7 +133,7 @@ const Coupons: CollectionConfig = {
                     if (docs?.length > 0) {
                         const couponDetails = docs?.[0];
                         const { claimedUsers } = couponDetails ?? {};
-                        const filterClaimedUsers = claimedUsers?.filter((d: any) => d.id !== userId);
+                        const filterClaimedUsers = claimedUsers?.filter((d: any) => d.id !== userId)?.map((d: any) => d.id);
 
                         const updateRes = await payload.update({
                             collection: 'coupons',
