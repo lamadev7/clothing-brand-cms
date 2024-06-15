@@ -167,7 +167,13 @@ const Banner: GlobalConfig = {
                     ]
                 }
             ]
-        }
+        },
+        {
+            name: 'visibility',
+            label: 'Banner Visibility',
+            type: "checkbox",
+            defaultValue: true,
+        },
     ]
 }
 
