@@ -32,37 +32,6 @@ const Banner: GlobalConfig = {
             relationTo: 'media',
         },
         {
-            name: 'slogan',
-            type: 'array',
-            fields: [
-                {
-                    type: 'row',
-                    fields: [
-                        {
-                            name: 'title',
-                            label: 'Slogan title',
-                            type: "text",
-                            maxLength: 100,
-                            required: true,
-                        },
-                        {
-                            name: 'quotes',
-                            label: 'Slogan quotes',
-                            type: "text",
-                            maxLength: 200,
-                            required: true,
-                        },
-                        {
-                            name: 'icon',
-                            label: 'Icon Name',
-                            type: "text",
-                            required: true,
-                        },
-                    ]
-                }
-            ]
-        },
-        {
             name: 'carousel',
             type: 'array',
             minRows: 5,
