@@ -68,9 +68,10 @@ const Product: CollectionConfig = {
         {
             name: 'color',
             label: 'Colors',
-            type: 'select',
-            options: COLOR_OPTIONS,
+            type: 'relationship',
+            relationTo: ['colors'],
             required: true,
+            hasMany: true,
         },
         {
             name: 'quantity',

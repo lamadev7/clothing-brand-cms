@@ -16,6 +16,7 @@ import Header from './globals/Header';
 import Footer from './globals/Footer';
 import Banner from './globals/Banner';
 import Faqs from './collections/Faqs';
+import Colors from './collections/Color';
 import Orders from './collections/Orders';
 import Coupons from './collections/Coupons';
 import Subscribers from './collections/Subscribers';
@@ -35,6 +36,7 @@ export default buildConfig({
     Users,
     Orders,
     Faqs,
+    Colors,
     Coupons,
     Subscribers,
     ProductReviews,
