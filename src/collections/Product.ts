@@ -196,6 +196,41 @@ const Product: CollectionConfig = {
     ],
     endpoints: [
         {
+            path: '/',
+            method: 'post',
+            handler: async (req, res) => {
+                try {
+                    const { payload, body } = req;
+                    const { id, name, sort, price, color, size, category } = body ?? {};
+
+                    let whereQuery: any = {};
+
+                    if (id) whereQuery["id"] = { contains: id };
+                    if (size) whereQuery["size"] = { contains: size };
+                    if (name) whereQuery["name"] = { contains: name };
+                    if (color) whereQuery["color.value"] = { contains: color };
+                    if (category) whereQuery["category.value"] = { contains: category };
+                    if (price?.length > 0) whereQuery = {
+                        ...whereQuery,
+                        and: [
+                            { price: { greater_than_equal: price[0] } },
+                            { price: { less_than_equal: price[1] } },
+                        ]
+                    };
+
+                    const result = await payload.find({
+                        collection: 'product',
+                        where: whereQuery,
+                        sort: sort ?? "createdAt"
+                    });
+                    res.send(result);
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).send({ message: error.message });
+                }
+            }
+        },
+        {
             path: '/rating',
             method: 'put',
             handler: async (req, res) => {
