@@ -2,7 +2,7 @@ import { round, sumBy } from "lodash";
 import { adminOnly } from "../access";
 import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
-import { COLOR_OPTIONS, SIZE_OPTIONS } from "../constants";
+import { COLOR_OPTIONS, GENDER_OPTIONS, SIZE_OPTIONS } from "../constants";
 
 
 const Product: CollectionConfig = {
@@ -64,6 +64,13 @@ const Product: CollectionConfig = {
             type: 'select',
             options: SIZE_OPTIONS,
             hasMany: true,
+        },
+        {
+            name: 'gender',
+            label: 'Gender',
+            type: 'select',
+            options: GENDER_OPTIONS,
+            required: true,
         },
         {
             name: 'color',
@@ -201,13 +208,20 @@ const Product: CollectionConfig = {
             handler: async (req, res) => {
                 try {
                     const { payload, body } = req;
-                    const { id, name, sort, price, color, size, category } = body ?? {};
+                    const { id, name, sort, price, color, size, category, gender, page, limit } = body ?? {};
 
                     let whereQuery: any = {};
 
                     if (id) whereQuery["id"] = { contains: id };
                     if (size) whereQuery["size"] = { contains: size };
                     if (name) whereQuery["name"] = { contains: name };
+                    if (gender) whereQuery = {
+                        ...whereQuery,
+                        or: [
+                            { gender: { equals: gender } },
+                            { gender: { equals: 'unisex' } }
+                        ]
+                    };
                     if (color) whereQuery["color.value"] = { contains: color };
                     if (category) whereQuery["category.value"] = { contains: category };
                     if (price?.length > 0) whereQuery = {
@@ -221,7 +235,9 @@ const Product: CollectionConfig = {
                     const result = await payload.find({
                         collection: 'product',
                         where: whereQuery,
-                        sort: sort ?? "createdAt"
+                        sort: sort ?? "createdAt",
+                        page: page ?? 10,
+                        limit: limit ?? 10,
                     });
                     res.send(result);
                 } catch (error) {

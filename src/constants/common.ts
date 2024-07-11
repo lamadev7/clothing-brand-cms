@@ -26,6 +26,13 @@ export const SIZE_OPTIONS = [
     { label: '2XL', value: '2xl' },
     { label: '3XL', value: '3xl' },
 ];
+
+export const GENDER_OPTIONS = [
+    { label: 'Male', value: 'male' },
+    { label: 'Female', value: 'female' },
+    { label: 'Unisex', value: 'unisex' },
+];
+
 export const COLOR_OPTIONS = [
     { label: 'Red', value: 'red' },
     { label: 'Blue', value: 'blue' },
