@@ -236,7 +236,7 @@ const Product: CollectionConfig = {
                         collection: 'product',
                         where: whereQuery,
                         sort: sort ?? "createdAt",
-                        page: page ?? 10,
+                        page: page ?? 1,
                         limit: limit ?? 10,
                     });
                     res.send(result);
