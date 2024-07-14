@@ -14,6 +14,7 @@ export interface Config {
     users: User;
     orders: Order;
     faqs: Faq;
+    colors: Color;
     coupons: Coupon;
     contacts: Contact;
     productReviews: ProductReview;
@@ -52,19 +53,11 @@ export interface Product {
     | null;
   price: number;
   size?: ('sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl')[] | null;
-  color:
-    | 'red'
-    | 'blue'
-    | 'yellow'
-    | 'white'
-    | 'black'
-    | 'pink'
-    | 'camel'
-    | 'grey'
-    | 'sage'
-    | 'purple'
-    | 'green'
-    | 'brown';
+  gender: 'male' | 'female' | 'unisex';
+  color: {
+    relationTo: 'colors';
+    value: string | Color;
+  }[];
   quantity?: number | null;
   category?:
     | {
@@ -113,6 +106,17 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "colors".
+ */
+export interface Color {
+  id: string;
+  name: string;
+  code: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media".
  */
 export interface Media {
@@ -138,6 +142,7 @@ export interface User {
   mobile: string;
   dob: string;
   profile?: string | Media | null;
+  address?: string | null;
   roles: ('admin' | 'customer')[];
   updatedAt: string;
   createdAt: string;
@@ -194,10 +199,11 @@ export interface Order {
   subTotal?: number | null;
   shippingFee: number;
   deliveryLocation?: string | null;
-  lat: number;
-  lng: number;
+  lat?: number | null;
+  lng?: number | null;
   discount?: number | null;
   total?: number | null;
+  transaction_id?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -234,7 +240,7 @@ export interface Coupon {
 export interface Contact {
   id: string;
   firstName: string;
-  lastName: string;
+  lastName?: string | null;
   email: string;
   message?: string | null;
   updatedAt: string;
@@ -343,14 +349,6 @@ export interface Banner {
   title: string;
   description: string;
   video?: string | Media | null;
-  slogan?:
-    | {
-        title: string;
-        quotes: string;
-        icon: string;
-        id?: string | null;
-      }[]
-    | null;
   carousel?:
     | {
         title: string;
@@ -376,6 +374,7 @@ export interface Banner {
         id?: string | null;
       }[]
     | null;
+  visibility?: boolean | null;
   updatedAt?: string | null;
   createdAt?: string | null;
 }

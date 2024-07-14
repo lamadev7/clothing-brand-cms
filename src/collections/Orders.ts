@@ -178,7 +178,7 @@ const Orders: CollectionConfig = {
                         await payload.update({
                             collection: 'orders',
                             id: orderId,
-                            data: { paymentStatus: paymentStatusOption?.value ?? status, paymentMode: ENUM.ESEWA }
+                            data: { paymentStatus: paymentStatusOption?.value ?? status, paymentMode: 'eSewa Mobile Wallet' }
                         })
 
                         return res.redirect(config.CLIENT_PAYMENT_SUCCESS_PAGE);

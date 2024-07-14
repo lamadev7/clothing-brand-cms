@@ -49,6 +49,7 @@ export const COLOR_OPTIONS = [
 ];
 
 export const PAYMENT_MODE_OPTIONS = [
+    { label: 'Khalti', value: 'Khalti' },
     { label: 'Cash In Delivery', value: 'Cash In Delivery' },
     { label: 'eSewa Mobile Wallet', value: 'eSewa Mobile Wallet' },
 ];
