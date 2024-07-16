@@ -274,6 +274,21 @@ const Orders: CollectionConfig = {
                             id: orderId,
                             data: params
                         });
+
+                        const order = await payload.findByID({ collection: 'orders', id: orderId });
+
+                        const promises = order?.orderItems?.map(async (d: any) => {
+                            const product = d?.product;
+
+                            return await payload.update({
+                                collection: 'product',
+                                id: product?.id,
+                                data: { quantity: (product?.quantity ?? 0) + (d?.quantity ?? 0) }
+                            });
+                        });
+
+
+                        await Promise.all(promises);
                         return res.send({ message: 'Order cancelled successfully!', data: response });
                     }
 
@@ -300,7 +315,22 @@ const Orders: CollectionConfig = {
                             id: orderId,
                             data: params
                         });
-                        return res.send({ message: 'Re ordered successfully!', data: response });
+
+                        const order = await payload.findByID({ collection: 'orders', id: orderId });
+
+                        const promises = order?.orderItems?.map(async (d: any) => {
+                            const product = d?.product;
+
+                            return await payload.update({
+                                collection: 'product',
+                                id: product?.id,
+                                data: { quantity: (product?.quantity ?? 0) - (d?.quantity ?? 0) }
+                            });
+                        });
+
+
+                        await Promise.all(promises);
+                        return res.send({ message: 'Order remake successfully!', data: response });
                     }
 
                     res.status(404).send({ message: 'Order ID missing!', data: null })
