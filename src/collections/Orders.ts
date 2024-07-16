@@ -150,6 +150,11 @@ const Orders: CollectionConfig = {
         {
             name: 'transaction_id',
             type: 'text',
+        },
+        {
+            name: 'proof_of_payment',
+            type: 'upload',
+            relationTo: 'media',
         }
     ],
     endpoints: [

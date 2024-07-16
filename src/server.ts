@@ -25,7 +25,7 @@ const start = async () => {
         secure: false,
         requireTLS: true,
       },
-      fromName: 'VERSE11',
+      fromName: 'RARA',
       fromAddress: 'lamaparbat70@gmail.com',
 
     },
