@@ -296,7 +296,8 @@ const Product: CollectionConfig = {
             method: 'get',
             handler: async (req, res) => {
                 try {
-                    const { payload } = req;
+                    const { payload, query } = req;
+                    const { limit }: any = query ?? {};
 
                     const data = await payload.find({
                         collection: 'product',
@@ -310,7 +311,8 @@ const Product: CollectionConfig = {
                                     orderBy: { not_equals: [] }
                                 }
                             ],
-                        }
+                        },
+                        limit: limit ?? 10,
                     });
 
                     res.send(data);
