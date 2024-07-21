@@ -199,6 +199,22 @@ const Product: CollectionConfig = {
                     }
                 ]
             }
+        },
+        {
+            type: 'row',
+            fields: [
+                {
+                    name: 'isHotSale',
+                    type: 'checkbox',
+                    defaultValue: false,
+                    label: 'Is HOt Sale ?',
+                },
+                {
+                    type: 'date',
+                    name: 'validUpto',
+                    label: 'Valid Up To',
+                }
+            ]
         }
     ],
     endpoints: [
@@ -208,13 +224,15 @@ const Product: CollectionConfig = {
             handler: async (req, res) => {
                 try {
                     const { payload, body } = req;
-                    const { id, name, sort, price, color, size, category, gender, page, limit } = body ?? {};
+                    const { id, name, sort, price, color, size, category, gender, isHotSale, page, limit } = body ?? {};
 
                     let whereQuery: any = {};
+
 
                     if (id) whereQuery["id"] = { contains: id };
                     if (size) whereQuery["size"] = { contains: size };
                     if (name) whereQuery["name"] = { contains: name };
+                    if (body?.hasOwnProperty("isHotSale")) whereQuery["isHotSale"] = { equals: true };
                     if (gender) whereQuery = {
                         ...whereQuery,
                         or: [
