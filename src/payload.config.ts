@@ -21,6 +21,7 @@ import Orders from './collections/Orders';
 import Coupons from './collections/Coupons';
 import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
+import { HighlighBanner } from './collections/HighlightBanner';
 
 export default buildConfig({
   serverURL: config.BASE_URI,
@@ -41,7 +42,7 @@ export default buildConfig({
     Subscribers,
     ProductReviews,
   ],
-  globals: [Header, Footer, Banner],
+  globals: [Header, Footer, Banner, HighlighBanner],
   cors: "*",
   typescript: {
     outputFile: path.resolve(__dirname, 'payload-types.ts'),
