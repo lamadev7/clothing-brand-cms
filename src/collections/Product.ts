@@ -1,6 +1,6 @@
 import moment from "moment";
-import { round, sumBy } from "lodash";
 import { adminOnly } from "../access";
+import { round, sumBy, uniq } from "lodash";
 import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { GENDER_OPTIONS, SIZE_OPTIONS } from "../constants";
@@ -117,6 +117,14 @@ const Product: CollectionConfig = {
             label: 'Discount (%)',
             type: 'number',
             defaultValue: 0
+        },
+        {
+            name: 'views',
+            unique: true,
+            hasMany: true,
+            relationTo: 'users',
+            type: 'relationship',
+            label: 'Total Views User Ids',
         },
         {
             name: 'images',
@@ -319,6 +327,35 @@ const Product: CollectionConfig = {
                     }
 
                     res.status(404).send({ message: 'Order ID missing!', data: null })
+
+                } catch (error) {
+                    console.error(error);
+                    res.status(500).send({ message: error.message });
+                }
+            }
+        },
+        {
+            path: '/views',
+            method: 'put',
+            handler: async (req, res) => {
+                try {
+                    const { payload, body } = req;
+                    const { productId, userId } = body ?? {};
+
+                    if (productId && userId) {
+                        const findProductById: any = await payload.findByID({ collection: 'product', id: productId });
+
+                        let viewUserIds = findProductById?.views?.map((d: any) => d?.id)?.filter(Boolean) ?? [];
+                        const isAlreadyViewed = viewUserIds?.some((d: any) => d == userId);
+                        viewUserIds = isAlreadyViewed ? viewUserIds?.filter((d: string) => d !== userId) : [...viewUserIds ?? [], userId];
+
+                        const data: any = { views: viewUserIds };
+
+                        const result = await payload.update({ collection: 'product', id: productId, data });
+                        return res.send({ message: 'Re ordered successfully!', data: result });
+                    }
+
+                    res.status(404).send({ message: 'Product ID or User ID missing!', data: null })
 
                 } catch (error) {
                     console.error(error);

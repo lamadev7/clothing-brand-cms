@@ -1,4 +1,5 @@
 import { Block, GlobalConfig } from "payload/types";
+import { hideAdminCollection } from "../utils";
 
 
 const LeftBlock: Block = {
@@ -128,6 +129,9 @@ const RightBottomBlock: Block = {
 
 export const HighlighBanner: GlobalConfig = {
     slug: 'hightlightBanner',
+    admin: {
+        hidden: hideAdminCollection,
+    },
     access: {
         read: () => true,
     },
