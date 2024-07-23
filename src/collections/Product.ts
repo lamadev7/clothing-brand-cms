@@ -1,8 +1,9 @@
+import moment from "moment";
 import { round, sumBy } from "lodash";
 import { adminOnly } from "../access";
 import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
-import { COLOR_OPTIONS, GENDER_OPTIONS, SIZE_OPTIONS } from "../constants";
+import { GENDER_OPTIONS, SIZE_OPTIONS } from "../constants";
 
 
 const Product: CollectionConfig = {
@@ -232,7 +233,23 @@ const Product: CollectionConfig = {
                     if (id) whereQuery["id"] = { contains: id };
                     if (size) whereQuery["size"] = { contains: size };
                     if (name) whereQuery["name"] = { contains: name };
-                    if (body?.hasOwnProperty("isHotSale")) whereQuery["isHotSale"] = { equals: true };
+                    if (body?.hasOwnProperty("isHotSale")) {
+                        whereQuery = {
+                            ...whereQuery,
+                            and: [
+                                {
+                                    isHotSale: {
+                                        equals: true
+                                    }
+                                },
+                                {
+                                    validUpto: {
+                                        greater_than_equal: moment().toISOString()
+                                    }
+                                }
+                            ]
+                        };
+                    }
                     if (gender) whereQuery = {
                         ...whereQuery,
                         or: [
