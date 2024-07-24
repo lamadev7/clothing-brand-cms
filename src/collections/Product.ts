@@ -346,13 +346,10 @@ const Product: CollectionConfig = {
                         const findProductById: any = await payload.findByID({ collection: 'product', id: productId });
 
                         let viewUserIds = findProductById?.views?.map((d: any) => d?.id)?.filter(Boolean) ?? [];
-                        const isAlreadyViewed = viewUserIds?.some((d: any) => d == userId);
-                        viewUserIds = isAlreadyViewed ? viewUserIds?.filter((d: string) => d !== userId) : [...viewUserIds ?? [], userId];
-
-                        const data: any = { views: viewUserIds };
+                        const data: any = { views: uniq([...viewUserIds ?? [], userId]) };
 
                         const result = await payload.update({ collection: 'product', id: productId, data });
-                        return res.send({ message: 'Re ordered successfully!', data: result });
+                        return res.send({ message: 'Product viewed successfully!', data: result });
                     }
 
                     res.status(404).send({ message: 'Product ID or User ID missing!', data: null })
