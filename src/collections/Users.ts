@@ -1,9 +1,9 @@
 import { CollectionConfig } from 'payload/types';
 
+import config from '../config';
 import { ROLES } from '../constants';
 import { adminOnly, customerAndAdmin } from '../access';
 import { isValidMobileNumber, isValidAge, hideAdminCollection } from '../utils';
-import config from '../config';
 
 const User: CollectionConfig = {
   slug: 'users',
@@ -136,6 +136,18 @@ const User: CollectionConfig = {
         } catch (error) {
           console.error(error);
           res.status(500).send({ message: error.message });
+        }
+      }
+    },
+    {
+      path: '/auth/login',
+      method: 'post',
+      handler: async (req, res) => {
+        try {
+          const { payload, body } = req;
+          const { email } = body;
+        } catch (error) {
+          res.status(500).send(error);
         }
       }
     }

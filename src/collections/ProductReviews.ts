@@ -1,4 +1,3 @@
-import { loggedIn } from "../access";
 import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { productReviewAccess } from "../access/productReview";
@@ -10,7 +9,7 @@ const ProductReviews: CollectionConfig = {
         hidden: hideAdminCollection
     },
     access: {
-        read: loggedIn,
+        read: () => true,
         create: productReviewAccess,
         update: productReviewAccess,
         delete: productReviewAccess,
