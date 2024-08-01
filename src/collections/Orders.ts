@@ -181,21 +181,16 @@ const Orders: CollectionConfig = {
     ],
     endpoints: [
         {
-            path: '/payment-success',
+            path: '/payment/success',
             method: 'get',
             handler: async (req, res, next) => {
                 try {
                     const { payload, query } = req;
                     const { data }: any = query ?? {};
 
-                    console.log({ data })
                     if (!data) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const decodedData = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
-
-                    // const message = decodedData.signed_field_names.split(",").map((field) => `${field}=${decodedData[field] || ""}`).join(",");
-                    // const signature = createSignature(message);
-                    // if (signature !== decodedData.signature) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const { status, transaction_uuid } = decodedData ?? {};
                     const orderId = transaction_uuid.split("-")?.[0] ?? {};
@@ -206,7 +201,11 @@ const Orders: CollectionConfig = {
                         await payload.update({
                             collection: 'orders',
                             id: orderId,
-                            data: { paymentStatus: paymentStatusOption?.value ?? status, paymentMode: 'eSewa Mobile Wallet' }
+                            data: {
+                                paymentStatus: paymentStatusOption?.value ?? status,
+                                paymentMode: 'eSewa Mobile Wallet',
+                                transaction_id: transaction_uuid,
+                            }
                         })
 
                         return res.redirect(config.CLIENT_PAYMENT_SUCCESS_PAGE);
@@ -220,7 +219,7 @@ const Orders: CollectionConfig = {
             }
         },
         {
-            path: '/payment-failed',
+            path: '/payment/failed',
             method: 'get',
             handler: async (req, res, next) => {
                 try {
