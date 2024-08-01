@@ -4,8 +4,8 @@ import { hideAdminCollection } from "../utils";
 import { CollectionConfig } from "payload/types";
 import { Product } from "payload/generated-types";
 
-import { customerAndSelf, customerAndAdmin, adminOnly } from "../access";
-import { ENUM, PAYMENT_MODE_OPTIONS, PAYMENT_STATUS, PAYMENT_STATUS_OPTIONS } from "../constants";
+import { customerAndAdmin, adminOnly } from "../access";
+import { PAYMENT_MODE_OPTIONS, PAYMENT_STATUS, PAYMENT_STATUS_OPTIONS } from "../constants";
 
 const Orders: CollectionConfig = {
     slug: "orders",
@@ -15,8 +15,8 @@ const Orders: CollectionConfig = {
     access: {
         read: customerAndAdmin,
         delete: customerAndAdmin,
-        create: customerAndSelf,
-        update: adminOnly,
+        create: () => true,
+        update: () => true,
     },
     hooks: {
         afterChange: [
@@ -61,7 +61,7 @@ const Orders: CollectionConfig = {
             label: 'User ID',
             type: 'relationship',
             relationTo: 'users',
-            required: true,
+            required: false,
         },
         {
             name: 'orderItems',
@@ -155,6 +155,28 @@ const Orders: CollectionConfig = {
             name: 'proof_of_payment',
             type: 'upload',
             relationTo: 'media',
+        },
+        {
+            name: 'guestDetails',
+            type: 'group',
+            fields: [
+                {
+                    name: 'fullName',
+                    type: 'text',
+                    required: true,
+                },
+                {
+                    name: 'email',
+                    type: 'email',
+                    required: true,
+                    unique: true,
+                },
+                {
+                    name: 'mobile',
+                    type: 'text',
+                    required: true,
+                },
+            ]
         }
     ],
     endpoints: [
@@ -166,6 +188,7 @@ const Orders: CollectionConfig = {
                     const { payload, query } = req;
                     const { data }: any = query ?? {};
 
+                    console.log({ data })
                     if (!data) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
 
                     const decodedData = JSON.parse(Buffer.from(data, "base64").toString("utf-8"));
