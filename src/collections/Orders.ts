@@ -105,7 +105,7 @@ const Orders: CollectionConfig = {
             name: 'paymentMode',
             label: 'Payment Mode',
             type: 'select',
-            options: PAYMENT_MODE_OPTIONS
+            options: PAYMENT_MODE_OPTIONS,
         },
         {
             name: 'paymentStatus',
@@ -195,6 +195,7 @@ const Orders: CollectionConfig = {
                     const { status, transaction_uuid } = decodedData ?? {};
                     const orderId = transaction_uuid.split("-")?.[0] ?? {};
 
+                    console.log({ orderId, decodedData })
                     if (transaction_uuid) {
                         const paymentStatusOption = PAYMENT_STATUS_OPTIONS.find((d) => d.value === status);
 
@@ -253,6 +254,39 @@ const Orders: CollectionConfig = {
                 } catch (error) {
                     res.send({});
                     console.error(error);
+                }
+            }
+        },
+        {
+            path: '/khalti/payment/success',
+            method: 'get',
+            handler: async (req, res, next) => {
+                try {
+                    const { payload, query } = req;
+                    const { transaction_id, purchase_order_id, status }: any = query ?? {};
+
+                    if (!transaction_id) return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
+
+                    if (transaction_id) {
+                        const paymentStatusOption = PAYMENT_STATUS_OPTIONS.find((d) => new RegExp(d.value, 'i').test(status) || d.label === status);
+                        console.log({ paymentStatusOption })
+                        await payload.update({
+                            collection: 'orders',
+                            id: purchase_order_id,
+                            data: {
+                                paymentStatus: paymentStatusOption?.value ?? status,
+                                paymentMode: 'eSewa Mobile Wallet',
+                                transaction_id: transaction_id,
+                            }
+                        })
+
+                        return res.redirect(config.CLIENT_PAYMENT_SUCCESS_PAGE);
+                    }
+
+                    res.status(500).send({ message: '500 SERVER ERROR!' });
+                } catch (error) {
+                    console.error(error);
+                    return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
                 }
             }
         },
