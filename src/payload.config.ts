@@ -12,6 +12,7 @@ import Media from './collections/media';
 import Product from './collections/Product';
 import Categories from './collections/Categories';
 
+import Logo from './components/Logo';
 import Header from './globals/Header';
 import Footer from './globals/Footer';
 import Banner from './globals/Banner';
@@ -23,9 +24,20 @@ import Subscribers from './collections/Subscribers';
 import ProductReviews from './collections/ProductReviews';
 import { HighlighBanner } from './collections/HighlightBanner';
 
+
 export default buildConfig({
   serverURL: config.BASE_URI,
   admin: {
+    meta: {
+      titleSuffix: 'Rara',
+      favicon: './media/logo.png',
+      ogImage: './media/logo.png',
+    },
+    components: {
+      graphics: {
+        Logo
+      }
+    },
     user: Users.slug,
     bundler: webpackBundler(),
   },
