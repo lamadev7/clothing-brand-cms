@@ -1,3 +1,4 @@
+import axios from "axios";
 import config from "../config";
 import { uniqBy } from "lodash";
 import { hideAdminCollection } from "../utils";
@@ -258,6 +259,51 @@ const Orders: CollectionConfig = {
             }
         },
         {
+            path: '/payment/khalti',
+            method: 'post',
+            handler: async (req, res, next) => {
+                try {
+                    const { body } = req;
+                    const { orderId, productNames, total, user }: any = body ?? {};
+
+                    if (!orderId) res.status(400).send({ message: 'orderId is required!' });
+                    if (!productNames) res.status(400).send({ message: 'productNames is required!' });
+                    if (!user) res.status(400).send({ message: 'user is required!' });
+
+                    const details = {
+                        "return_url": `${process.env.BASE_URI}/api/orders/khalti/payment/success`,
+                        "website_url": `${process.env.BASE_URI}/api/orders/khalti/payment/success`,
+                        "amount": total,
+                        "purchase_order_id": orderId,
+                        "purchase_order_name": productNames,
+                        "customer_info": {
+                            "name": `${user?.firstName}${user?.lastName}`,
+                            "email": user?.email,
+                            "phone": user?.mobile,
+                        }
+                    }
+
+                    const headers = {
+                        'Authorization': `key ${process.env.KHALTI_LIVE_SECRET_KEY}`,
+                        'Content-Type': 'application/json',
+                    };
+
+                    const result: any = await axios.post(
+                        process.env.KHALTI_PAYMENT_API ?? '',
+                        details,
+                        { headers }
+                    );
+
+                    if (result?.data?.payment_url) return res.send({ data: result?.data, message: 'Khalti Checkout url success.' })
+
+                    res.status(500).send({ message: 'Payment Failed!', error: result });
+                } catch (error) {
+                    console.error(error);
+                    return res.redirect(config.CLIENT_PAYMENT_FAILED_PAGE);
+                }
+            }
+        },
+        {
             path: '/khalti/payment/success',
             method: 'get',
             handler: async (req, res, next) => {
@@ -269,7 +315,7 @@ const Orders: CollectionConfig = {
 
                     if (transaction_id) {
                         const paymentStatusOption = PAYMENT_STATUS_OPTIONS.find((d) => new RegExp(d.value, 'i').test(status) || d.label === status);
-                        console.log({ paymentStatusOption })
+
                         await payload.update({
                             collection: 'orders',
                             id: purchase_order_id,
