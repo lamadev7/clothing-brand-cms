@@ -30,8 +30,8 @@ export default buildConfig({
   admin: {
     meta: {
       titleSuffix: 'Rara',
-      favicon: './media/logo.png',
-      ogImage: './media/logo.png',
+      favicon: './media/logoIcon.png',
+      ogImage: './media/logoIcon.png',
     },
     components: {
       graphics: {
