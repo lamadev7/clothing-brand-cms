@@ -49,6 +49,11 @@ const Coupons: CollectionConfig = {
             type: 'relationship',
             relationTo: 'users',
         },
+        {
+            name: 'isPublic',
+            type: 'checkbox',
+            defaultValue: false,
+        }
     ],
     endpoints: [
         {
@@ -142,8 +147,8 @@ const Coupons: CollectionConfig = {
                                 claimedUsers: filterClaimedUsers ?? []
                             }
                         });
-                        
-                        return res.send({ docs: updateRes, message: 'Coupon code removed successfully.'});
+
+                        return res.send({ docs: updateRes, message: 'Coupon code removed successfully.' });
                     }
 
                     res.send({ docs: [], message: 'Coupon code not found!' });
