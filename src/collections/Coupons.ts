@@ -63,7 +63,6 @@ const Coupons: CollectionConfig = {
                 try {
                     const { payload, body }: any = req;
                     const { code, userId } = body ?? {};
-
                     const result = await payload.find({
                         collection: 'coupons',
                         where: {
@@ -72,7 +71,7 @@ const Coupons: CollectionConfig = {
                                     code: { equals: code }
                                 },
                                 {
-                                    claimedUsers: { not_in: userId }
+                                    claimedUsers: { not_in: userId ?? null }
                                 }
                             ]
                         }
@@ -90,8 +89,8 @@ const Coupons: CollectionConfig = {
                                 data: {
                                     claimedUsers: [
                                         ...couponDetails?.claimedUsers?.map((d: any) => d.id) ?? [],
-                                        userId
-                                    ]
+                                        userId ?? null
+                                    ].filter(Boolean)
                                 }
                             });
 
