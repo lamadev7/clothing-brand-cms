@@ -69,9 +69,6 @@ const Coupons: CollectionConfig = {
                             and: [
                                 {
                                     code: { equals: code }
-                                },
-                                {
-                                    claimedUsers: { not_in: userId ?? null }
                                 }
                             ]
                         }
@@ -80,7 +77,9 @@ const Coupons: CollectionConfig = {
 
                     if (docs?.length > 0) {
                         const couponDetails = docs?.[0];
-                        const { validFrom, validTo } = couponDetails ?? {};
+                        const { validFrom, validTo, isPublic } = couponDetails ?? {};
+
+                        if (couponDetails?.claimedUsers?.includes(userId) && !isPublic) return res.status(400).send({ data: null, message: 'Coupon already applied!' });
 
                         if (moment(validFrom).isBefore(moment()) && moment(validTo).isAfter(moment())) {
                             await payload.update({
